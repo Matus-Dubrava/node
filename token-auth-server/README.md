@@ -183,7 +183,7 @@ What we are going to do here is to search for a user with the email that we have
 
 If we have found some user with the email address, then we need to check whether his/her password matches with the password from the request. Here we will use the __comparePassword__ method that we have implemented in the user model and once the result is known, we will call done with appropriate arguments.
 
-```
+```javascript
 // create local strategy
 const localOptions = { usernameField: 'email' };
 const localLogin = new LocalStrategy(localOptions, async function(email, password, done) {
