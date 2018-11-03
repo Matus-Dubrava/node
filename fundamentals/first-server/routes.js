@@ -1,4 +1,5 @@
 const fs = require('fs');
+const path = require('path');
 
 module.exports = function(req, res) {
 	if (req.url === '/') {
@@ -20,12 +21,17 @@ module.exports = function(req, res) {
 
 		return req.on('end', () => {
 			const parsedBody = Buffer.concat(body).toString();
-			const message = parsedBody.split('=')[1] + '/n';
-			fs.appendFile('message.txt', message, 'utf8', err => {
-				res.statusCode = 302;
-				res.setHeader('Location', '/');
-				res.end();
-			});
+			const message = parsedBody.split('=')[1];
+			fs.appendFile(
+				path.join(__dirname, 'message.txt'),
+				message,
+				'utf8',
+				err => {
+					res.statusCode = 302;
+					res.setHeader('Location', '/');
+					res.end();
+				}
+			);
 		});
 	}
 
