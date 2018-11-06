@@ -5,7 +5,7 @@ const path = require('path');
 const { get404 } = require('./controllers/error');
 const adminRoutes = require('./routes/admin');
 const shopRouter = require('./routes/shop');
-const db = require('./util/database');
+const sequelize = require('./util/database');
 
 const app = express();
 
@@ -20,4 +20,12 @@ app.use(shopRouter);
 
 app.use(get404);
 
-app.listen(process.env.PORT || 3000);
+sequelize
+    .sync()
+    .then(result => {
+        // console.log(result);
+        app.listen(process.env.PORT || 3000);
+    })
+    .catch(err => {
+        console.error(err);
+    });
