@@ -6,6 +6,7 @@ const { get404 } = require('./controllers/error');
 const adminRoutes = require('./routes/admin');
 const shopRouter = require('./routes/shop');
 const { mongoConnect } = require('./util/database');
+const User = require('./models/user');
 
 const app = express();
 
@@ -16,16 +17,15 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use((req, res, next) => {
-    // User.findByPk(1)
-    //     .then(user => {
-    //         req.user = user;
-    //         next();
-    //     })
-    //     .catch(err => {
-    //         console.error(err);
-    //     });
-    console.log('request');
-    next();
+    User.findById('5be34a7a6e803912ca2b438f')
+        .then(user => {
+            req.user = user;
+            console.log(user);
+            next();
+        })
+        .catch(err => {
+            console.error(err);
+        });
 });
 
 app.use('/admin', adminRoutes);
